@@ -1,5 +1,5 @@
 {
-  "name": "template",
+  "name": "react-template",
   "private": true,
   "version": "1.0.0",
   "type": "module",
@@ -7,7 +7,8 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
-    "lint": "eslint . --ext .js,.ts,.jsx,.tsx --fix"
+    "lint": "eslint --fix --ext .js,.ts,.jsx,.tsx ./src",
+    "format": "prettier --write \"src/**/*\""
   },
   "dependencies": {
     "axios": "^0.27.2",
@@ -23,7 +24,10 @@
     "@typescript-eslint/parser": "^5.38.0",
     "@vitejs/plugin-react": "^2.1.0",
     "eslint": "^8.23.1",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-react": "^7.31.8",
+    "prettier": "^2.7.1",
     "typescript": "^4.6.4",
     "vite": "^3.1.0"
   }
