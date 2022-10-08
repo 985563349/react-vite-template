@@ -48,7 +48,11 @@ function InitialStateProvider({ children }: { children: ReactNode }) {
     return <div>loading...</div>;
   }
 
-  return <InitialStateContext.Provider value={value}>{children}</InitialStateContext.Provider>;
+  return (
+    <InitialStateContext.Provider value={value}>
+      {children}
+    </InitialStateContext.Provider>
+  );
 }
 
 export default InitialStateProvider;
