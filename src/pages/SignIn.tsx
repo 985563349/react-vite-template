@@ -1,7 +1,6 @@
 import { Navigate, useLocation, useNavigate } from 'react-router-dom';
 
 import { useInitialState } from '@/providers/InitialStateProvider';
-import { StorageKeys } from '@/constants';
 import { fetchUserInfo, signIn } from '@/services';
 
 type SignInFormDataType = {
@@ -26,7 +25,7 @@ function SignIn() {
     if (values.username === undefined || values.password === undefined) return;
 
     const token = await signIn(values as SignInFormDataType);
-    localStorage.setItem(StorageKeys.Token, token);
+    localStorage.setItem('Token', token);
     const user = await fetchUserInfo();
     setInitialState?.((s) => ({ ...s, token, user }));
 

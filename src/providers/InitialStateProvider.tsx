@@ -1,22 +1,21 @@
 import { createContext, useState, useContext, useEffect } from 'react';
 import type { Dispatch, ReactNode, SetStateAction } from 'react';
 
-import { StorageKeys } from '@/constants';
 import { fetchUserInfo } from '@/services';
 
-export type InitialState = {
+export type InitialStateType = {
   token?: string;
   user?: {
     username: string;
   };
+} | null;
+
+export type InitialStateContextType = {
+  initialState: InitialStateType;
+  setInitialState: Dispatch<SetStateAction<InitialStateType>>;
 };
 
-export type AuthContextType = {
-  initialState?: InitialState;
-  setInitialState?: Dispatch<SetStateAction<InitialState>>;
-};
-
-const InitialStateContext = createContext<AuthContextType>({});
+const InitialStateContext = createContext<InitialStateContextType>(null!);
 
 export function useInitialState() {
   return useContext(InitialStateContext);
@@ -24,11 +23,12 @@ export function useInitialState() {
 
 function InitialStateProvider({ children }: { children: ReactNode }) {
   const [loading, setLoading] = useState(true);
-  const [initialState, setInitialState] = useState<InitialState>({});
+  const [initialState, setInitialState] = useState<InitialStateType>(null);
 
   // Application data initialization
   useEffect(() => {
-    const token = localStorage.getItem(StorageKeys.Token);
+    const token = localStorage.getItem('Token');
+
     if (token) {
       fetchUserInfo().then((user) => {
         setInitialState((s) => ({ ...s, user, token }));

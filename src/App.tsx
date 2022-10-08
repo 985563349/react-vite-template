@@ -1,10 +1,10 @@
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
 
-import InitialStateProvider from './providers/InitialStateProvider';
-import RequireAuth from './RequireAuth';
+import InitialStateProvider, {
+  useInitialState,
+} from './providers/InitialStateProvider';
 
 import BasicLayout from './layout/BasicLayout';
-
 import Welcome from './pages/Welcome';
 import About from './pages/About';
 import SignIn from './pages/SignIn';
@@ -33,6 +33,17 @@ function App() {
       </InitialStateProvider>
     </div>
   );
+}
+
+function RequireAuth({ children }: { children: JSX.Element }) {
+  const { initialState } = useInitialState();
+  const location = useLocation();
+
+  if (!initialState?.user) {
+    return <Navigate to="/sign-in" state={{ from: location }} replace />;
+  }
+
+  return children;
 }
 
 export default App;
