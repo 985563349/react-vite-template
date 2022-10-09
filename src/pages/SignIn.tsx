@@ -32,7 +32,7 @@ function SignIn() {
     navigate(from, { replace: true });
   };
 
-  if (initialState?.user) {
+  if (initialState?.token) {
     return <Navigate to="/" />;
   }
 

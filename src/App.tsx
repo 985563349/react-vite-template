@@ -39,7 +39,7 @@ function RequireAuth({ children }: { children: JSX.Element }) {
   const { initialState } = useInitialState();
   const location = useLocation();
 
-  if (!initialState?.user) {
+  if (!initialState?.token) {
     return <Navigate to="/sign-in" state={{ from: location }} replace />;
   }
 

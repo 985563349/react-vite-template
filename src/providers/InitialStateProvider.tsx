@@ -25,7 +25,6 @@ function InitialStateProvider({ children }: { children: ReactNode }) {
   const [loading, setLoading] = useState(true);
   const [initialState, setInitialState] = useState<InitialStateType>(null);
 
-  // Application data initialization
   useEffect(() => {
     const token = localStorage.getItem('Token');
 
