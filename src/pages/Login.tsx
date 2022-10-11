@@ -3,12 +3,12 @@ import { Navigate, useLocation, useNavigate } from 'react-router-dom';
 import { useInitialState } from '@/providers/InitialStateProvider';
 import { fetchUserInfo, signIn } from '@/services';
 
-type SignInFormDataType = {
+type LoginFormDataType = {
   username: string;
   password: string;
 };
 
-function SignIn() {
+function Login() {
   const navigate = useNavigate();
   const location = useLocation();
   const state = location.state as { from?: Location };
@@ -24,7 +24,7 @@ function SignIn() {
 
     if (values.username === undefined || values.password === undefined) return;
 
-    const token = await signIn(values as SignInFormDataType);
+    const token = await signIn(values as LoginFormDataType);
     localStorage.setItem('Token', token);
     const user = await fetchUserInfo();
     setInitialState?.((s) => ({ ...s, token, user }));
@@ -37,7 +37,7 @@ function SignIn() {
   }
 
   return (
-    <div className="sign-in">
+    <div>
       <form className="form" onSubmit={onSubmit}>
         <div className="form-item">
           <input name="username" placeholder="username" />
@@ -55,4 +55,4 @@ function SignIn() {
   );
 }
 
-export default SignIn;
+export default Login;

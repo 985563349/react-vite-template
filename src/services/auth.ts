@@ -1,4 +1,4 @@
-interface UserAccount {
+export interface UserAccount {
   username: string;
   password: string;
 }
@@ -15,7 +15,7 @@ export const signOut = () => {
   });
 };
 
-interface UserInfo {
+export interface UserInfo {
   username: string;
 }
 
