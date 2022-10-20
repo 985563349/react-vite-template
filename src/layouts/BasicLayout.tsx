@@ -1,6 +1,8 @@
 import { Link, Outlet, useNavigate } from 'react-router-dom';
-import { signOut } from '@/services';
+
+import { Storage } from '@/constants';
 import { useInitialState } from '@/providers/InitialStateProvider';
+import { signOut } from '@/services';
 
 function Layout() {
   const { setInitialState } = useInitialState();
@@ -24,7 +26,7 @@ function Layout() {
       <button
         onClick={async () => {
           await signOut();
-          localStorage.removeItem('Token');
+          localStorage.removeItem(Storage.Token);
           setInitialState(null);
           navigate('/');
         }}

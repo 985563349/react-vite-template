@@ -1,6 +1,7 @@
 import { createContext, useState, useContext, useEffect } from 'react';
 import type { Dispatch, ReactNode, SetStateAction } from 'react';
 
+import { Storage } from '@/constants';
 import { fetchUserInfo } from '@/services';
 
 export type InitialStateType = {
@@ -26,7 +27,7 @@ function InitialStateProvider({ children }: { children: ReactNode }) {
   const [initialState, setInitialState] = useState<InitialStateType>(null);
 
   useEffect(() => {
-    const token = localStorage.getItem('Token');
+    const token = localStorage.getItem(Storage.Token);
 
     if (token) {
       fetchUserInfo().then((user) => {
