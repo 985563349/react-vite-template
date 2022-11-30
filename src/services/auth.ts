@@ -1,17 +1,22 @@
+import { request } from '@/utils/request';
+
 export interface UserAccount {
   username: string;
   password: string;
 }
 
-export const signIn = (account: UserAccount): Promise<string> => {
-  return new Promise((resolve) => {
-    setTimeout(resolve, 1000, 'TOKEN');
+export const login = (data: UserAccount) => {
+  return request<{ token: string }>({
+    url: '/login',
+    method: 'POST',
+    data,
   });
 };
 
-export const signOut = () => {
-  return new Promise((resolve) => {
-    setTimeout(resolve, 1000);
+export const logout = () => {
+  return request({
+    url: '/logout',
+    method: 'POST',
   });
 };
 
@@ -20,7 +25,8 @@ export interface UserInfo {
 }
 
 export const fetchUserInfo = () => {
-  return new Promise<UserInfo>((resolve, reject) => {
-    setTimeout(resolve, 1000, { username: 'username' });
+  return request<UserInfo>({
+    url: '/user',
+    method: 'GET',
   });
 };

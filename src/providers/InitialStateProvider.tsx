@@ -30,10 +30,9 @@ function InitialStateProvider({ children }: { children: ReactNode }) {
     const token = localStorage.getItem(Storage.Token);
 
     if (token) {
-      fetchUserInfo().then((user) => {
-        setInitialState((s) => ({ ...s, user, token }));
-        setLoading(false);
-      });
+      fetchUserInfo()
+        .then((user) => setInitialState((s) => ({ ...s, user, token })))
+        .finally(() => setLoading(false));
     } else {
       setLoading(false);
     }

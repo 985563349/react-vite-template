@@ -2,7 +2,7 @@ import { Navigate, useLocation, useNavigate } from 'react-router-dom';
 
 import { useInitialState } from '@/providers/InitialStateProvider';
 import { Storage } from '@/constants';
-import { fetchUserInfo, signIn } from '@/services';
+import { fetchUserInfo, login } from '@/services';
 
 type LoginFormDataType = {
   username: string;
@@ -25,8 +25,9 @@ function Login() {
 
     if (values.username === undefined || values.password === undefined) return;
 
-    const token = await signIn(values as LoginFormDataType);
+    const { token } = await login(values as LoginFormDataType);
     localStorage.setItem(Storage.Token, token);
+
     const user = await fetchUserInfo();
     setInitialState?.((s) => ({ ...s, token, user }));
 
