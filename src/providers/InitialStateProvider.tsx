@@ -38,17 +38,12 @@ function InitialStateProvider({ children }: { children: ReactNode }) {
     }
   }, []);
 
-  const value = {
-    initialState,
-    setInitialState,
-  };
-
   if (loading) {
     return <div>loading...</div>;
   }
 
   return (
-    <InitialStateContext.Provider value={value}>
+    <InitialStateContext.Provider value={{ initialState, setInitialState }}>
       {children}
     </InitialStateContext.Provider>
   );

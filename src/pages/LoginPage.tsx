@@ -9,7 +9,7 @@ type LoginFormDataType = {
   password: string;
 };
 
-function Login() {
+function LoginPage() {
   const navigate = useNavigate();
   const location = useLocation();
   const state = location.state as { from?: Location };
@@ -31,10 +31,10 @@ function Login() {
     const user = await fetchUserInfo();
     setInitialState?.((s) => ({ ...s, token, user }));
 
-    navigate(from, { replace: true });
+    setTimeout(() => navigate(from, { replace: true }));
   };
 
-  if (initialState?.token) {
+  if (initialState?.token && state?.from == null) {
     return <Navigate to="/" />;
   }
 
@@ -57,4 +57,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default LoginPage;

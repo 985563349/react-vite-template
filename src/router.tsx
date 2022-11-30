@@ -2,33 +2,33 @@ import { createBrowserRouter, Navigate, useLocation } from 'react-router-dom';
 import { useInitialState } from './providers/InitialStateProvider';
 
 import BasicLayout from './layouts/BasicLayout';
-import Welcome from './pages/Welcome';
-import About from './pages/About';
-import Login from './pages/Login';
+import PublicPage from './pages/PublicPage';
+import ProtectedPage from './pages/ProtectedPage';
+import LoginPage from './pages/LoginPage';
 import ErrorPage from './pages/ErrorPage';
 
 const router = createBrowserRouter([
   {
     path: '/',
-    element: (
-      <RequireAuth>
-        <BasicLayout />
-      </RequireAuth>
-    ),
+    element: <BasicLayout />,
     children: [
       {
         index: true,
-        element: <Welcome />,
+        element: <PublicPage />,
       },
       {
-        path: 'about',
-        element: <About />,
+        path: 'protected',
+        element: (
+          <RequireAuth>
+            <ProtectedPage />
+          </RequireAuth>
+        ),
       },
     ],
   },
   {
     path: '/login',
-    element: <Login />,
+    element: <LoginPage />,
   },
   {
     path: '*',
