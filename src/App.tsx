@@ -1,14 +1,14 @@
 import { RouterProvider } from 'react-router-dom';
 
-import { useAuth } from './contexts/AuthProvider';
-
 import router from './router';
+import { useAuth } from './contexts/AuthProvider';
+import Loading from './components/Loading';
 
 function App() {
   const { isLoading } = useAuth();
 
   if (isLoading) {
-    return <div>loading...</div>;
+    return <Loading />;
   }
 
   return (
