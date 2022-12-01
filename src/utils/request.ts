@@ -16,7 +16,8 @@ const httpExceptionHandler: Record<
   },
 
   401: () => {
-    console.error(401);
+    window.postMessage('AUTH:LOGOUT');
+    alert('401');
   },
 
   500: (ctx) => {

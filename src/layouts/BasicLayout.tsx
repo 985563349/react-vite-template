@@ -1,12 +1,10 @@
 import { Link, Outlet, useNavigate } from 'react-router-dom';
 
-import { Storage } from '@/constants';
-import { useInitialState } from '@/providers/InitialStateProvider';
-import { logout } from '@/services';
+import { useAuth } from '@/contexts/AuthProvider';
 
 function BasicLayout() {
-  const { setInitialState } = useInitialState();
   const navigate = useNavigate();
+  const { isAuthenticated, logout } = useAuth();
 
   return (
     <div>
@@ -23,16 +21,11 @@ function BasicLayout() {
         </li>
       </ul>
 
-      <button
-        onClick={async () => {
-          await logout();
-          localStorage.removeItem(Storage.Token);
-          setInitialState(null);
-          navigate('/');
-        }}
-      >
-        Sign out
-      </button>
+      {isAuthenticated ? (
+        <button onClick={() => logout(() => navigate('/login'))}>
+          Sign out
+        </button>
+      ) : null}
 
       <Outlet />
     </div>

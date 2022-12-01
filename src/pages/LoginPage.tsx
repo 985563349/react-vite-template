@@ -1,8 +1,6 @@
 import { Navigate, useLocation, useNavigate } from 'react-router-dom';
 
-import { useInitialState } from '@/providers/InitialStateProvider';
-import { Storage } from '@/constants';
-import { fetchUserInfo, login } from '@/services';
+import { useAuth } from '@/contexts/AuthProvider';
 
 type LoginFormDataType = {
   username: string;
@@ -15,26 +13,23 @@ function LoginPage() {
   const state = location.state as { from?: Location };
   const from = state?.from?.pathname || '/';
 
-  const { initialState, setInitialState } = useInitialState();
+  const { isAuthenticated, login } = useAuth();
 
   const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     const formData = new FormData(event.currentTarget);
-    const values = Object.fromEntries(formData);
+    const values = Object.fromEntries(formData) as LoginFormDataType;
 
     if (values.username === undefined || values.password === undefined) return;
 
-    const { token } = await login(values as LoginFormDataType);
-    localStorage.setItem(Storage.Token, token);
-
-    const user = await fetchUserInfo();
-    setInitialState?.((s) => ({ ...s, token, user }));
-
-    setTimeout(() => navigate(from, { replace: true }));
+    login(values, () => {
+      console.log('重定向');
+      navigate(from, { replace: true });
+    });
   };
 
-  if (initialState?.token && state?.from == null) {
+  if (isAuthenticated) {
     return <Navigate to="/" />;
   }
 
