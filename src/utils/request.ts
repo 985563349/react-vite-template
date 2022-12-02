@@ -5,7 +5,7 @@ export const request = axios.create({
   timeout: 3000,
 });
 
-type AxiosResponseStatus = 400 | 401 | 500 | 'ECONNABORTED';
+type AxiosResponseStatus = 400 | 401 | 403 | 500 | 'ECONNABORTED';
 
 const httpExceptionHandler: Record<
   AxiosResponseStatus | 'default',
@@ -15,9 +15,13 @@ const httpExceptionHandler: Record<
     console.error(400);
   },
 
-  401: () => {
+  401: (ctx) => {
+    console.error(401);
+  },
+
+  403: () => {
     window.postMessage('AUTH:LOGOUT');
-    alert('401');
+    alert('403');
   },
 
   500: (ctx) => {

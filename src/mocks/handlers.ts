@@ -58,13 +58,4 @@ export const handlers = [
       })
     );
   }),
-
-  rest.get('/unauthorized-error', (req, res, ctx) => {
-    return res(
-      ctx.status(401),
-      ctx.json({
-        errorMessage: 'Not authorized',
-      })
-    );
-  }),
 ];

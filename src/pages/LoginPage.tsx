@@ -23,10 +23,7 @@ function LoginPage() {
 
     if (values.username === undefined || values.password === undefined) return;
 
-    login(values, () => {
-      console.log('重定向');
-      navigate(from, { replace: true });
-    });
+    login(values, () => navigate(from, { replace: true }));
   };
 
   if (isAuthenticated) {

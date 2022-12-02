@@ -5,59 +5,57 @@ import { request } from '@/utils/request';
 
 type AuthState = {
   isAuthenticated: boolean;
-  isLoading: boolean;
+  isReady: boolean;
   user?: any;
 };
 
 export type AuthContextInterface = AuthState & {
-  login: (data: any, callback: VoidFunction) => Promise<void>;
-  logout: (callback: VoidFunction) => Promise<void>;
+  login: (data: any, callback?: VoidFunction) => Promise<void>;
+  logout: (callback?: VoidFunction) => Promise<void>;
 };
 
 type Action =
   | { type: 'INITIALISED'; user: any }
   | { type: 'LOGOUT' }
-  | { type: 'LOADING'; isLoading: boolean };
+  | { type: 'READY'; isReady: boolean };
 
 const reducer = (state: AuthState, action: Action): AuthState => {
   switch (action.type) {
     case 'INITIALISED':
       return {
         ...state,
+        isReady: true,
         isAuthenticated: true,
-        isLoading: false,
         user: action.user,
       };
 
     case 'LOGOUT':
       return { ...state, isAuthenticated: false, user: undefined };
 
-    case 'LOADING':
-      return { ...state, isLoading: action.isLoading };
+    case 'READY':
+      return { ...state, isReady: action.isReady };
 
     default:
       return state;
   }
 };
 
+const hasAuth = () => localStorage.getItem('Token') !== null;
+
 const AuthContext = createContext<AuthContextInterface>(null!);
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [state, dispatch] = useReducer(reducer, {
+    isReady: hasAuth() === false,
     isAuthenticated: false,
-    isLoading: true,
   });
 
   useEffect(() => {
     (async () => {
-      const token = localStorage.getItem('Token');
-
-      if (token && state.isAuthenticated === false) {
+      if (hasAuth() && state.isAuthenticated === false) {
         const user = await request('/user');
         dispatch({ type: 'INITIALISED', user });
       }
-
-      dispatch({ type: 'LOADING', isLoading: false });
     })();
   }, []);
 
@@ -71,24 +69,24 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     });
   }, []);
 
-  const login = async (data: any, callback: VoidFunction) => {
+  const login = async (data: any, callback?: VoidFunction) => {
     const token = await request('/login', { method: 'POST', data });
     localStorage.setItem('Token', token);
     const user = await request('/user');
 
     flushSync(() => {
       dispatch({ type: 'INITIALISED', user });
-      callback();
+      callback?.();
     });
   };
 
-  const logout = async (callback: VoidFunction) => {
+  const logout = async (callback?: VoidFunction) => {
     await request('/logout', { method: 'POST' });
     localStorage.removeItem('Token');
 
     flushSync(() => {
       dispatch({ type: 'LOGOUT' });
-      callback();
+      callback?.();
     });
   };
 

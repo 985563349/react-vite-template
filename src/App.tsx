@@ -5,9 +5,9 @@ import { useAuth } from './contexts/AuthProvider';
 import Loading from './components/Loading';
 
 function App() {
-  const { isLoading } = useAuth();
+  const { isReady } = useAuth();
 
-  if (isLoading) {
+  if (isReady === false) {
     return <Loading />;
   }
 
