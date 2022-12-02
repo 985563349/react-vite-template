@@ -1,1 +1,51 @@
 # React Vite Template
+
+A react project template
+
+## Getting started
+
+```shell
+# clone the project
+git clone https://github.com/985563349/react-vite-template.git
+
+# enter the project directory
+cd react-vite-template
+
+# install dependency
+pnpm install
+
+# develop
+pnpm dev
+```
+
+This will automatically open http://localhost:5174
+
+## Build
+
+```shell
+# build for production environment
+pnpm build
+```
+
+## Advanced
+
+```shell
+# preview the release environment effect
+pnpm preview
+
+# code check
+pnpm lint
+
+# code auto fix
+pnpm format
+```
+
+## Dependencies
+
+- React
+- React Router
+- MSW
+- Vite
+- TypeScrip
+- ESLint
+- Prettier
