@@ -46,6 +46,12 @@ pnpm format
 - React Router
 - MSW
 - Vite
-- TypeScrip
+- TypeScript
 - ESLint
 - Prettier
+
+## License
+
+[MIT](https://github.com/985563349/react-vite-template/blob/main/LICENSE)
+
+Copyright (c) 2022 Jee
