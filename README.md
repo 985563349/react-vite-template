@@ -1,1 +1,1 @@
-# React Template
+# React Vite Template
