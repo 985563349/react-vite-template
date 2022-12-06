@@ -52,7 +52,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     (async () => {
-      if (hasAuth() && state.isAuthenticated === false) {
+      if (state.isReady === false && state.isAuthenticated === false) {
         const user = await request('/user');
         dispatch({ type: 'INITIALISED', user });
       }
