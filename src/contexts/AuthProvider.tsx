@@ -4,8 +4,8 @@ import { flushSync } from 'react-dom';
 import { request } from '@/utils/request';
 
 type AuthState = {
+  isLoading: boolean;
   isAuthenticated: boolean;
-  isReady: boolean;
   user?: any;
 };
 
@@ -17,23 +17,30 @@ export type AuthContextInterface = AuthState & {
 type Action =
   | { type: 'INITIALISED'; user: any }
   | { type: 'LOGOUT' }
-  | { type: 'READY'; isReady: boolean };
+  | { type: 'LOADING'; isLoading: boolean };
 
 const reducer = (state: AuthState, action: Action): AuthState => {
   switch (action.type) {
     case 'INITIALISED':
       return {
         ...state,
-        isReady: true,
-        isAuthenticated: true,
+        isLoading: false,
+        isAuthenticated: !!action.user,
         user: action.user,
       };
 
     case 'LOGOUT':
-      return { ...state, isAuthenticated: false, user: undefined };
+      return {
+        ...state,
+        isAuthenticated: false,
+        user: undefined,
+      };
 
-    case 'READY':
-      return { ...state, isReady: action.isReady };
+    case 'LOADING':
+      return {
+        ...state,
+        isLoading: action.isLoading,
+      };
 
     default:
       return state;
@@ -46,15 +53,19 @@ const AuthContext = createContext<AuthContextInterface>(null!);
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [state, dispatch] = useReducer(reducer, {
-    isReady: hasAuth() === false,
+    isLoading: true,
     isAuthenticated: false,
   });
 
   useEffect(() => {
     (async () => {
-      if (state.isReady === false && state.isAuthenticated === false) {
-        const user = await request('/user');
-        dispatch({ type: 'INITIALISED', user });
+      try {
+        if (hasAuth() && state.isAuthenticated === false) {
+          const user = await request('/user');
+          dispatch({ type: 'INITIALISED', user });
+        }
+      } finally {
+        dispatch({ type: 'LOADING', isLoading: false });
       }
     })();
   }, []);

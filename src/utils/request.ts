@@ -21,7 +21,7 @@ const httpExceptionHandler: Record<
 
   403: () => {
     window.postMessage('AUTH:LOGOUT');
-    alert('403');
+    console.error('403');
   },
 
   500: (ctx) => {
