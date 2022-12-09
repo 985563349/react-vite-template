@@ -18,7 +18,7 @@ pnpm install
 pnpm dev
 ```
 
-This will automatically open http://localhost:5174
+This will automatically open http://localhost:5173
 
 ## Build
 
@@ -44,6 +44,7 @@ pnpm format
 
 - React
 - React Router
+- Axios
 - MSW
 - Vite
 - TypeScript
