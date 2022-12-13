@@ -18,7 +18,7 @@ pnpm install
 pnpm dev
 ```
 
-This will automatically open http://localhost:5173
+This will automatically open http://127.0.0.1:5173
 
 ## Build
 
