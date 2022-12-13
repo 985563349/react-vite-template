@@ -1,16 +1,8 @@
 import { RouterProvider } from 'react-router-dom';
 
 import router from './router';
-import { useAuth } from './contexts/AuthProvider';
-import Loading from './components/Loading';
 
 function App() {
-  const { isLoading } = useAuth();
-
-  if (isLoading) {
-    return <Loading />;
-  }
-
   return (
     <div id="app">
       <RouterProvider router={router} />

@@ -48,7 +48,7 @@ request.interceptors.response.use(
   (error) => {
     const { response } = error;
 
-    // 请求统一异常拦截
+    // Unified exception interception
     const status: AxiosResponseStatus = response?.status;
     const handler =
       httpExceptionHandler[status] ?? httpExceptionHandler.default;

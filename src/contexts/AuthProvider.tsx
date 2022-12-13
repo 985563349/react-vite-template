@@ -104,7 +104,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const contextValue = { ...state, login, logout };
 
   return (
-    <AuthContext.Provider value={contextValue}>{children}</AuthContext.Provider>
+    <AuthContext.Provider value={contextValue}>
+      {state.isLoading === false && children}
+    </AuthContext.Provider>
   );
 }
 
