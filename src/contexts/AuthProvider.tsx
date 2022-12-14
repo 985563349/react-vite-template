@@ -2,16 +2,12 @@ import { createContext, useContext, useEffect, useReducer } from 'react';
 import { flushSync } from 'react-dom';
 
 import { request } from '@/utils/request';
+import Loading from '@/components/Loading';
 
-type AuthState = {
+type AuthContextState = {
   isLoading: boolean;
   isAuthenticated: boolean;
   user?: any;
-};
-
-export type AuthContextInterface = AuthState & {
-  login: (data: any, callback?: VoidFunction) => Promise<void>;
-  logout: (callback?: VoidFunction) => Promise<void>;
 };
 
 type Action =
@@ -19,7 +15,7 @@ type Action =
   | { type: 'LOGOUT' }
   | { type: 'LOADING'; isLoading: boolean };
 
-const reducer = (state: AuthState, action: Action): AuthState => {
+const reducer = (state: AuthContextState, action: Action): AuthContextState => {
   switch (action.type) {
     case 'INITIALISED':
       return {
@@ -49,7 +45,12 @@ const reducer = (state: AuthState, action: Action): AuthState => {
 
 const hasAuth = () => localStorage.getItem('Token') !== null;
 
-const AuthContext = createContext<AuthContextInterface>(null!);
+export type AuthContextValue = Omit<AuthContextState, 'isLoading'> & {
+  login: (data: any, callback?: VoidFunction) => Promise<void>;
+  logout: (callback?: VoidFunction) => Promise<void>;
+};
+
+const AuthContext = createContext<AuthContextValue>(null!);
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [state, dispatch] = useReducer(reducer, {
@@ -101,11 +102,16 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     });
   };
 
-  const contextValue = { ...state, login, logout };
-
   return (
-    <AuthContext.Provider value={contextValue}>
-      {state.isLoading === false && children}
+    <AuthContext.Provider
+      value={{
+        isAuthenticated: state.isAuthenticated,
+        user: state.user,
+        login,
+        logout,
+      }}
+    >
+      {state.isLoading ? <Loading /> : children}
     </AuthContext.Provider>
   );
 }
