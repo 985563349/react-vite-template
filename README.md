@@ -1,6 +1,6 @@
 # React Vite Template
 
-A react project template
+If you need a clean template for development, then you can try it.
 
 ## Getting started
 
@@ -18,7 +18,7 @@ pnpm install
 pnpm dev
 ```
 
-This will automatically open http://127.0.0.1:5173
+This will automatically open: http://127.0.0.1:5173
 
 ## Build
 
@@ -44,12 +44,13 @@ pnpm format
 
 - React
 - React Router
+- TypeScript
 - Axios
 - MSW
 - Vite
-- TypeScript
 - ESLint
 - Prettier
+- Commitlint
 
 ## License
 
