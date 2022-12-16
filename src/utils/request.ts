@@ -7,7 +7,7 @@ export const request = axios.create({
 
 type AxiosResponseStatus = 400 | 401 | 403 | 500 | 'ECONNABORTED';
 
-const httpExceptionHandler: Record<
+const exceptionHandler: Record<
   AxiosResponseStatus | 'default',
   (ctx: any) => void
 > = {
@@ -50,8 +50,7 @@ request.interceptors.response.use(
 
     // Unified exception interception
     const status: AxiosResponseStatus = response?.status;
-    const handler =
-      httpExceptionHandler[status] ?? httpExceptionHandler.default;
+    const handler = exceptionHandler[status] ?? exceptionHandler.default;
     handler(response);
 
     return Promise.reject(error);
