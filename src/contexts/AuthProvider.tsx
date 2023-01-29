@@ -10,6 +10,13 @@ type AuthContextState = {
   user?: any;
 };
 
+export type AuthContextValue = Omit<AuthContextState, 'isLoading'> & {
+  login: (data: any, callback?: VoidFunction) => Promise<void>;
+  logout: (callback?: VoidFunction) => Promise<void>;
+};
+
+const AuthContext = createContext<AuthContextValue>(null!);
+
 type Action =
   | { type: 'INITIALISED'; user: any }
   | { type: 'LOGOUT' }
@@ -44,13 +51,6 @@ const reducer = (state: AuthContextState, action: Action): AuthContextState => {
 };
 
 const hasAuth = () => localStorage.getItem('Token') !== null;
-
-export type AuthContextValue = Omit<AuthContextState, 'isLoading'> & {
-  login: (data: any, callback?: VoidFunction) => Promise<void>;
-  logout: (callback?: VoidFunction) => Promise<void>;
-};
-
-const AuthContext = createContext<AuthContextValue>(null!);
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [state, dispatch] = useReducer(reducer, {
