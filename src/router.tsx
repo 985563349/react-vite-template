@@ -1,6 +1,6 @@
 import React, { Suspense } from 'react';
 import { createBrowserRouter, Navigate, useLocation } from 'react-router-dom';
-import { useAuth } from './contexts/AuthProvider';
+import { useAuth } from './providers/AuthProvider';
 
 import BasicLayout from './layouts/BasicLayout';
 import LoginPage from './pages/LoginPage';

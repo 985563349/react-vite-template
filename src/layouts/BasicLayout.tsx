@@ -1,6 +1,6 @@
 import { Link, Outlet, useNavigate } from 'react-router-dom';
 
-import { useAuth } from '@/contexts/AuthProvider';
+import { useAuth } from '@/providers/AuthProvider';
 
 function BasicLayout() {
   const navigate = useNavigate();

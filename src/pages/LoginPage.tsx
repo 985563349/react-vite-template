@@ -1,6 +1,6 @@
 import { Navigate, useLocation, useNavigate } from 'react-router-dom';
 
-import { useAuth } from '@/contexts/AuthProvider';
+import { useAuth } from '@/providers/AuthProvider';
 
 type LoginFormDataType = {
   username: string;
@@ -22,7 +22,6 @@ function LoginPage() {
     const values = Object.fromEntries(formData) as LoginFormDataType;
 
     if (values.username === undefined || values.password === undefined) return;
-
     login(values, () => navigate(from, { replace: true }));
   };
 
