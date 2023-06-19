@@ -9,11 +9,10 @@ const Loading: React.FC<LoadingProps> = ({ delay = 200 }) => {
 
   useEffect(() => {
     const timer = setTimeout(() => setShow(true), delay);
-
     return () => {
       clearTimeout(timer);
     };
-  }, []);
+  }, [delay]);
 
   return show ? <div>loading...</div> : null;
 };

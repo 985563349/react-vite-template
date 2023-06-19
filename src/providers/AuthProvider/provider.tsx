@@ -20,9 +20,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     (async () => {
       try {
-        if (hasAuth() && state.isAuthenticated === false) {
+        if (hasAuth()) {
           const user = await fetchUserInfo();
-          dispatch({ type: 'INITIALISED', user });
+          dispatch({ type: 'INITIALIZED', user });
         } else {
           dispatch({ type: 'LOADING', isLoading: false });
         }
@@ -48,7 +48,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     const user = await fetchUserInfo();
 
     flushSync(() => {
-      dispatch({ type: 'INITIALISED', user });
+      dispatch({ type: 'INITIALIZED', user });
       callback?.();
     });
   }, []);
@@ -69,7 +69,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       login,
       logout,
     }),
-    [state]
+    [state, login, logout]
   );
 
   return (

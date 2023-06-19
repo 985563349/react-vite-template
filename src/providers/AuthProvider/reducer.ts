@@ -1,14 +1,14 @@
 import type { AuthState } from './state';
 
 type Action =
-  | { type: 'INITIALISED'; user: any }
+  | { type: 'INITIALIZED'; user: any }
   | { type: 'LOGOUT' }
   | { type: 'ERROR'; error: any }
   | { type: 'LOADING'; isLoading: boolean };
 
 export const reducer = (state: AuthState, action: Action): AuthState => {
   switch (action.type) {
-    case 'INITIALISED':
+    case 'INITIALIZED':
       return {
         ...state,
         isLoading: false,

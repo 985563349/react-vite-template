@@ -1,26 +1,15 @@
 import React, { Suspense } from 'react';
-import { createBrowserRouter, Navigate, useLocation } from 'react-router-dom';
-import { useAuth } from './providers/AuthProvider';
+import { createBrowserRouter } from 'react-router-dom';
 
 import BasicLayout from './layouts/BasicLayout';
 import LoginPage from './pages/LoginPage';
 import ErrorPage from './pages/ErrorPage';
 
-const PublicPage = React.lazy(() => import('./pages/PublicPage'));
-const ProtectedPage = React.lazy(() => import('./pages/ProtectedPage'));
-
+import RequireAuth from './RequireAuth';
 import Loading from './components/Loading';
 
-function RequireAuth({ children }: { children: JSX.Element }) {
-  const { isAuthenticated } = useAuth();
-  const location = useLocation();
-
-  if (!isAuthenticated) {
-    return <Navigate to="/login" state={{ from: location }} replace />;
-  }
-
-  return children;
-}
+const PublicPage = React.lazy(() => import('./pages/PublicPage'));
+const ProtectedPage = React.lazy(() => import('./pages/ProtectedPage'));
 
 const router = createBrowserRouter([
   {
