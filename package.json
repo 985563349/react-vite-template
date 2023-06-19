@@ -7,13 +7,13 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
-    "lint": "eslint --cache --fix --ext .js,.ts,.jsx,.tsx src",
-    "format": "prettier --cache --write \"src/**/*.{js,jsx,ts,tsx,css,json,md}\"",
+    "lint": "eslint --cache --ext .ts,.tsx src --report-unused-disable-directives --max-warnings 0",
+    "format": "prettier --cache --write \"src/**/*.{ts,tsx,css,json,md}\"",
     "prepare": "husky install"
   },
   "lint-staged": {
-    "*.{js,jsx,ts,tsx}": "eslint",
-    "*.{js,jsx,tsx,ts,css,json}": "prettier --write"
+    "*.{ts,tsx}": "eslint",
+    "*.{tsx,ts,css,json}": "prettier --write"
   },
   "dependencies": {
     "axios": "^0.27.2",
@@ -22,24 +22,26 @@
     "react-router-dom": "^6.4.5"
   },
   "devDependencies": {
-    "@commitlint/cli": "^17.1.2",
-    "@commitlint/config-conventional": "^17.1.0",
+    "@commitlint/cli": "^17.6.5",
+    "@commitlint/config-conventional": "^17.6.5",
     "@types/node": "^18.11.15",
-    "@types/react": "^18.0.26",
-    "@types/react-dom": "^18.0.9",
-    "@typescript-eslint/eslint-plugin": "^5.46.1",
-    "@typescript-eslint/parser": "^5.46.1",
+    "@types/react": "^18.0.37",
+    "@types/react-dom": "^18.0.11",
+    "@typescript-eslint/eslint-plugin": "^5.59.0",
+    "@typescript-eslint/parser": "^5.59.0",
     "@vitejs/plugin-react-swc": "^3.0.0",
-    "eslint": "^8.29.0",
-    "eslint-config-prettier": "^8.5.0",
+    "eslint": "^8.38.0",
+    "eslint-config-prettier": "^8.8.0",
     "eslint-plugin-prettier": "^4.2.1",
-    "eslint-plugin-react": "^7.31.11",
-    "husky": "^8.0.2",
-    "lint-staged": "^13.1.0",
-    "msw": "^0.49.2",
-    "prettier": "^2.8.1",
-    "typescript": "^4.9.3",
-    "vite": "^4.0.0"
+    "eslint-plugin-react": "^7.32.2",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-react-refresh": "^0.3.4",
+    "husky": "^8.0.3",
+    "lint-staged": "^13.2.2",
+    "msw": "^1.2.2",
+    "prettier": "^2.8.8",
+    "typescript": "^5.0.2",
+    "vite": "^4.3.9"
   },
   "msw": {
     "workerDirectory": "public"
