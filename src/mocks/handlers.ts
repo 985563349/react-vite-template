@@ -1,61 +1,38 @@
-import { rest } from 'msw';
+import { http, HttpResponse } from 'msw';
 
 export const handlers = [
-  rest.post('/login', (req, res, ctx) => {
+  http.post('/login', () => {
     // Persist user's authentication in the session
     sessionStorage.setItem('is-authenticated', 'true');
 
-    return res(
-      // Respond with a 200 status code
-      ctx.status(200),
-      ctx.text('TOKEN')
-    );
+    // Respond with a 200 status code
+    return new HttpResponse('TOKEN');
   }),
 
-  rest.post('/logout', (req, res, ctx) => {
+  http.post('/logout', () => {
     // Check if the user is authenticated in this session
     const isAuthenticated = sessionStorage.getItem('is-authenticated');
 
     if (!isAuthenticated) {
       // If not authenticated, respond with a 403 error
-      return res(
-        ctx.status(403),
-        ctx.json({
-          errorMessage: 'Not authorized',
-        })
-      );
+      return new HttpResponse('Not authorized', { status: 403 });
     }
 
     sessionStorage.setItem('is-authenticated', 'false');
 
-    return res(
-      ctx.status(200),
-      ctx.json({
-        username: 'admin',
-      })
-    );
+    return HttpResponse.json({ username: 'admin' });
   }),
 
-  rest.get('/user', (req, res, ctx) => {
+  http.get('/user', () => {
     // Check if the user is authenticated in this session
     const isAuthenticated = sessionStorage.getItem('is-authenticated');
 
     if (!isAuthenticated) {
       // If not authenticated, respond with a 403 error
-      return res(
-        ctx.status(403),
-        ctx.json({
-          errorMessage: 'Not authorized',
-        })
-      );
+      return new HttpResponse('Not authorized', { status: 403 });
     }
 
     // If authenticated, return a mocked user details
-    return res(
-      ctx.status(200),
-      ctx.json({
-        username: 'admin',
-      })
-    );
+    return HttpResponse.json({ username: 'admin' });
   }),
 ];
