@@ -7,15 +7,12 @@ export const request = axios.create({
 
 type AxiosResponseStatus = 400 | 401 | 403 | 500 | 'ECONNABORTED';
 
-const axiosExceptionHandler: Record<
-  AxiosResponseStatus | 'default',
-  (ctx: any) => void
-> = {
-  400: (ctx) => {
+const axiosExceptionHandler: Record<AxiosResponseStatus | 'default', (ctx: any) => void> = {
+  400: () => {
     console.error(400);
   },
 
-  401: (ctx) => {
+  401: () => {
     console.error(401);
   },
 
@@ -24,7 +21,7 @@ const axiosExceptionHandler: Record<
     console.error('403');
   },
 
-  500: (ctx) => {
+  500: () => {
     console.error(500);
   },
 
@@ -50,8 +47,7 @@ request.interceptors.response.use(
 
     // Unified exception interception
     const status: AxiosResponseStatus = response?.status;
-    const handler =
-      axiosExceptionHandler[status] ?? axiosExceptionHandler.default;
+    const handler = axiosExceptionHandler[status] ?? axiosExceptionHandler.default;
 
     handler(response);
 

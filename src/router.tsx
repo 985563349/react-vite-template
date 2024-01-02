@@ -1,48 +1,41 @@
-import React, { Suspense } from 'react';
 import { createBrowserRouter } from 'react-router-dom';
 
 import BasicLayout from './layouts/BasicLayout';
-import LoginPage from './pages/LoginPage';
 import ErrorPage from './pages/ErrorPage';
+import LoginPage from './pages/LoginPage';
+import PublicPage from './pages/PublicPage';
 
 import RequireAuth from './RequireAuth';
-import Loading from './components/Loading';
-
-const PublicPage = React.lazy(() => import('./pages/PublicPage'));
-const ProtectedPage = React.lazy(() => import('./pages/ProtectedPage'));
 
 const router = createBrowserRouter([
   {
     path: '/',
     element: <BasicLayout />,
+    errorElement: <ErrorPage />,
     children: [
       {
         index: true,
-        element: (
-          <Suspense fallback={<Loading />}>
-            <PublicPage />
-          </Suspense>
-        ),
+        element: <PublicPage />,
       },
       {
         path: 'protected',
-        element: (
-          <Suspense fallback={<Loading />}>
-            <RequireAuth>
-              <ProtectedPage />
-            </RequireAuth>
-          </Suspense>
-        ),
+        lazy: async () => {
+          const { default: ProtectedPage } = await import('./pages/ProtectedPage');
+
+          return {
+            element: (
+              <RequireAuth>
+                <ProtectedPage />
+              </RequireAuth>
+            ),
+          };
+        },
       },
     ],
   },
   {
     path: '/login',
     element: <LoginPage />,
-  },
-  {
-    path: '*',
-    element: <ErrorPage />,
   },
 ]);
 

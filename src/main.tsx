@@ -1,8 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 
-import { AuthProvider } from './providers/AuthProvider';
 import App from './App';
+import { AuthProvider } from './providers/AuthProvider';
+
 import './index.css';
 
 // start mock

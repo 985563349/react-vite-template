@@ -4,7 +4,7 @@ import { useAuth } from '@/providers/AuthProvider';
 
 function BasicLayout() {
   const navigate = useNavigate();
-  const { isAuthenticated, logout } = useAuth();
+  const { isAuthenticated, signOut } = useAuth();
 
   return (
     <div>
@@ -22,9 +22,7 @@ function BasicLayout() {
       </ul>
 
       {isAuthenticated ? (
-        <button onClick={() => logout(() => navigate('/login'))}>
-          Sign out
-        </button>
+        <button onClick={() => signOut(() => navigate('/login'))}>Sign out</button>
       ) : null}
 
       <Outlet />

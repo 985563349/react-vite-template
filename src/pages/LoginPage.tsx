@@ -2,7 +2,7 @@ import { Navigate, useLocation, useNavigate } from 'react-router-dom';
 
 import { useAuth } from '@/providers/AuthProvider';
 
-type LoginFormDataType = {
+type LoginFormData = {
   username: string;
   password: string;
 };
@@ -10,23 +10,25 @@ type LoginFormDataType = {
 function LoginPage() {
   const navigate = useNavigate();
   const location = useLocation();
+
   const state = location.state as { from?: Location };
   const from = state?.from?.pathname || '/';
 
-  const { isAuthenticated, login } = useAuth();
+  const { isAuthenticated, signIn } = useAuth();
 
   const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     const formData = new FormData(event.currentTarget);
-    const values = Object.fromEntries(formData) as LoginFormDataType;
+    const values = Object.fromEntries(formData) as LoginFormData;
 
     if (values.username === undefined || values.password === undefined) return;
-    login(values, () => navigate(from, { replace: true }));
+
+    signIn(values, () => navigate(from, { replace: true }));
   };
 
   if (isAuthenticated) {
-    return <Navigate to="/" />;
+    return <Navigate to="/" replace />;
   }
 
   return (
