@@ -1,7 +1,6 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useReducer } from 'react';
 import { flushSync } from 'react-dom';
 
-import Loading from '@/components/Loading';
 import { login, logout, fetchUserInfo } from '@/services';
 
 export interface AuthProviderProps {
@@ -20,7 +19,7 @@ interface AuthProviderState extends AuthState {
   signOut: (callback?: VoidFunction) => Promise<void>;
 }
 
-export const AuthContext = createContext<AuthProviderState | null>(null);
+const AuthContext = createContext<AuthProviderState | null>(null);
 
 type Action =
   | { type: 'INITIALIZED'; user: any }
@@ -28,7 +27,7 @@ type Action =
   | { type: 'ERROR'; error: any }
   | { type: 'LOADING'; isLoading: boolean };
 
-export const reducer = (state: AuthState, action: Action): AuthState => {
+const reducer = (state: AuthState, action: Action): AuthState => {
   switch (action.type) {
     case 'INITIALIZED':
       return {
@@ -63,7 +62,7 @@ export const reducer = (state: AuthState, action: Action): AuthState => {
   }
 };
 
-export function AuthProvider({ children }: AuthProviderProps) {
+function AuthProvider({ children }: AuthProviderProps) {
   const [state, dispatch] = useReducer(reducer, {
     isAuthenticated: false,
     isLoading: true,
@@ -94,7 +93,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
     });
   }, []);
 
-  const signIn = useCallback(async (data: any, callback?: VoidFunction) => {
+  const signIn: AuthProviderState['signIn'] = useCallback(async (data, callback) => {
     const token = await login(data);
     localStorage.setItem('Token', token);
     const user = await fetchUserInfo();
@@ -105,7 +104,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
     });
   }, []);
 
-  const signOut = useCallback(async (callback?: VoidFunction) => {
+  const signOut: AuthProviderState['signOut'] = useCallback(async (callback) => {
     await logout();
     localStorage.removeItem('Token');
 
@@ -124,11 +123,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
     [state, signIn, signOut]
   );
 
-  return (
-    <AuthContext.Provider value={contextValue}>
-      {state.isLoading ? <Loading /> : children}
-    </AuthContext.Provider>
-  );
+  return <AuthContext.Provider value={contextValue}>{children}</AuthContext.Provider>;
 }
 
 export function useAuth() {
@@ -140,3 +135,5 @@ export function useAuth() {
 
   return context;
 }
+
+export default AuthProvider;

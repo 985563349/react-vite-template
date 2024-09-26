@@ -1,4 +1,4 @@
-function PublicPage() {
+function Public() {
   return (
     <div>
       <h1>Public</h1>
@@ -6,4 +6,4 @@ function PublicPage() {
   );
 }
 
-export default PublicPage;
+export default Public;

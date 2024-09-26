@@ -1,7 +1,8 @@
 function ErrorPage() {
   return (
     <div>
-      <h1>Sorry, an unexpected error has occurred.</h1>
+      <h1>Oops!</h1>
+      <p>Sorry, an unexpected error has occurred.</p>
     </div>
   );
 }

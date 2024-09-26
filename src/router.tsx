@@ -1,32 +1,42 @@
-import { createBrowserRouter } from 'react-router-dom';
+import { createBrowserRouter, useLocation, Navigate } from 'react-router-dom';
 
-import BasicLayout from './layouts/BasicLayout';
-import ErrorPage from './pages/ErrorPage';
-import LoginPage from './pages/LoginPage';
-import PublicPage from './pages/PublicPage';
+import { useAuth } from './providers/auth-provider';
+import Layout from './layout';
+import ErrorPage from './error-page';
 
-import RequireAuth from './RequireAuth';
+import Login from './pages/login';
+import Public from './pages/public';
+
+function ProtectedRoute({ children }: { children: React.ReactNode }) {
+  const location = useLocation();
+  const { isAuthenticated } = useAuth();
+
+  if (!isAuthenticated) {
+    return <Navigate to="/login" state={{ from: location }} replace />;
+  }
+
+  return children;
+}
 
 const router = createBrowserRouter([
   {
-    path: '/',
-    element: <BasicLayout />,
+    element: <Layout />,
     errorElement: <ErrorPage />,
     children: [
       {
-        index: true,
-        element: <PublicPage />,
+        path: '/',
+        element: <Public />,
       },
       {
-        path: 'protected',
+        path: '/protected',
         lazy: async () => {
-          const { default: ProtectedPage } = await import('./pages/ProtectedPage');
+          const { default: Protected } = await import('./pages/protected');
 
           return {
             element: (
-              <RequireAuth>
-                <ProtectedPage />
-              </RequireAuth>
+              <ProtectedRoute>
+                <Protected />
+              </ProtectedRoute>
             ),
           };
         },
@@ -35,7 +45,7 @@ const router = createBrowserRouter([
   },
   {
     path: '/login',
-    element: <LoginPage />,
+    element: <Login />,
   },
 ]);
 

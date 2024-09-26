@@ -1,4 +1,4 @@
-function ProtectedPage() {
+function Protected() {
   return (
     <div>
       <h1>Protected</h1>
@@ -6,4 +6,4 @@ function ProtectedPage() {
   );
 }
 
-export default ProtectedPage;
+export default Protected;

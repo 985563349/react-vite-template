@@ -1,30 +1,22 @@
 import { Navigate, useLocation, useNavigate } from 'react-router-dom';
 
-import { useAuth } from '@/providers/AuthProvider';
+import { useAuth } from '@/providers/auth-provider';
 
-type LoginFormData = {
-  username: string;
-  password: string;
-};
-
-function LoginPage() {
+function Login() {
   const navigate = useNavigate();
   const location = useLocation();
-
-  const state = location.state as { from?: Location };
-  const from = state?.from?.pathname || '/';
-
   const { isAuthenticated, signIn } = useAuth();
+
+  const from = location.state?.from?.pathname || '/';
 
   const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    const formData = new FormData(event.currentTarget);
-    const values = Object.fromEntries(formData) as LoginFormData;
+    const data = Object.fromEntries(new FormData(event.currentTarget));
 
-    if (values.username === undefined || values.password === undefined) return;
-
-    signIn(values, () => navigate(from, { replace: true }));
+    if (data.username && data.password) {
+      signIn(data, () => navigate(from, { replace: true }));
+    }
   };
 
   if (isAuthenticated) {
@@ -50,4 +42,4 @@ function LoginPage() {
   );
 }
 
-export default LoginPage;
+export default Login;
