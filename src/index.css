@@ -1,13 +1,157 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+/* CSS Variables for Color Palette */
+:root {
+  --primary-color: #007bff; /* A modern blue */
+  --secondary-color: #6c757d; /* A neutral gray for accents */
+  --text-color: #333; /* Dark gray for readable text */
+  --background-color: #f8f9fa; /* Light gray for page background */
+  --header-background-color: #343a40; /* Dark color for header */
+  --header-text-color: #ffffff; /* White text for header */
+  --section-background-color: #ffffff; /* White for sections */
+  --border-color: #dee2e6; /* Light border color */
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+/* Global Styles */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  color: var(--text-color);
+  background-color: var(--background-color);
+  line-height: 1.6;
+  font-size: 16px;
+}
+
+a {
+  color: var(--primary-color);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Layout Styles (src/layout.tsx) */
+header {
+  background-color: var(--header-background-color);
+  padding: 1rem 0;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+header nav ul {
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem; /* Spacing between nav items */
+}
+
+header nav ul li a {
+  color: var(--header-text-color);
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+}
+
+header nav ul li a:hover,
+header nav ul li a:focus {
+  background-color: var(--primary-color);
+  text-decoration: none;
+}
+
+main {
+  display: block; /* Ensure main is treated as a block element */
+  padding: 2rem 1rem; /* Vertical and horizontal padding */
+  max-width: 960px; /* Max width for content */
+  margin: 0 auto; /* Center content on the page */
+}
+
+/* Portfolio Page Styles (src/pages/portfolio.tsx) */
+section {
+  background-color: var(--section-background-color);
+  margin-bottom: 2rem; /* Space between sections */
+  padding: 1.5rem; /* Padding inside sections */
+  border-radius: 8px; /* Softer edges for sections */
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  border: 1px solid var(--border-color);
+}
+
+section:last-of-type {
+  margin-bottom: 0;
+}
+
+section h2 {
+  color: var(--primary-color);
+  margin-bottom: 1rem;
+  font-size: 2rem; /* Larger font size for section titles */
+  font-weight: 600;
+  border-bottom: 2px solid var(--primary-color);
+  padding-bottom: 0.5rem;
+  display: inline-block;
+}
+
+section h3 {
+  color: var(--secondary-color);
+  margin-top: 1rem; /* Space above job titles/project names */
+  margin-bottom: 0.5rem;
+  font-size: 1.5rem; /* Slightly smaller for sub-headings */
+  font-weight: 500;
+}
+
+section p,
+section ul {
+  margin-bottom: 1rem;
+  line-height: 1.7;
+}
+
+section ul {
+  list-style-position: outside; /* Bullets outside the text flow */
+  padding-left: 1.5rem; /* Indent for bullet points */
+}
+
+section ul li {
+  margin-bottom: 0.5rem; /* Space between list items */
+}
+
+section small {
+  display: block;
+  color: var(--secondary-color);
+  font-size: 0.9rem;
+  margin-top: 0.5rem;
+}
+
+/* Ensure the div wrapping portfolio sections in portfolio.tsx doesn't add unwanted layout constraints */
+/* If src/pages/portfolio.tsx has a root div, we can style it or remove it if not needed */
+/* For now, assuming the sections are direct children of main or a simple div */
+
+/* Responsive adjustments (optional for now, but good practice) */
+@media (max-width: 768px) {
+  header nav ul {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  header nav ul li a {
+    display: block; /* Make links take full width for easier tapping */
+  }
+
+  main {
+    padding: 1rem;
+  }
+
+  section h2 {
+    font-size: 1.8rem;
+  }
+
+  section h3 {
+    font-size: 1.3rem;
+  }
 }

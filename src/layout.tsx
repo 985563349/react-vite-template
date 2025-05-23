@@ -1,32 +1,53 @@
-import { Link, Outlet, useNavigate } from 'react-router-dom';
+import { Link, Outlet } from 'react-router-dom';
 
-import { useAuth } from './providers/auth-provider';
+const headerStyle: React.CSSProperties = {
+  backgroundColor: '#f0f0f0',
+  padding: '1rem',
+  borderBottom: '1px solid #ccc',
+};
+
+const navStyle: React.CSSProperties = {
+  display: 'flex',
+  justifyContent: 'center',
+};
+
+const ulStyle: React.CSSProperties = {
+  listStyleType: 'none',
+  margin: 0,
+  padding: 0,
+  display: 'flex',
+  gap: '2rem',
+};
+
+const mainStyle: React.CSSProperties = {
+  padding: '1rem',
+};
 
 function BasicLayout() {
-  const navigate = useNavigate();
-  const { isAuthenticated, signOut } = useAuth();
-
   return (
-    <div>
-      <h1>layout</h1>
-      <ul>
-        <li>
-          <Link to="/">Public Page</Link>
-        </li>
-        <li>
-          <Link to="/protected">Protected Page</Link>
-        </li>
-        <li>
-          <Link to="/404">404</Link>
-        </li>
-      </ul>
-
-      {isAuthenticated ? (
-        <button onClick={() => signOut(() => navigate('/login'))}>Sign out</button>
-      ) : null}
-
-      <Outlet />
-    </div>
+    <>
+      <header style={headerStyle}>
+        <nav style={navStyle}>
+          <ul style={ulStyle}>
+            <li>
+              <Link to="#about">About</Link>
+            </li>
+            <li>
+              <Link to="#projects">Projects</Link>
+            </li>
+            <li>
+              <Link to="#experience">Experience</Link>
+            </li>
+            <li>
+              <Link to="#education">Education</Link>
+            </li>
+          </ul>
+        </nav>
+      </header>
+      <main style={mainStyle}>
+        <Outlet />
+      </main>
+    </>
   );
 }
 
